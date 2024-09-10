@@ -58,12 +58,15 @@ def format_balance(balance: float) -> str:
     rounded_balance = round(balance, 4)
     balance_str = f"{rounded_balance:.4f}"
 
+    # Форматируем баланс
     if rounded_balance > 0.05:
-        balance_str = f"{GREEN}{rounded_balance:.4f}{RESET}"
-    elif rounded_balance == 0:
-        balance_str = f"{RED}{rounded_balance:.4f}{RESET}"
+        balance_str = f"{GREEN}{balance_str}{RESET}"
+    elif 0.0001 <= rounded_balance < 0.0009:
+        balance_str = f"{YELLOW}{balance_str}{RESET}"
+    elif rounded_balance == 0.0000:
+        balance_str = f"{RED}{balance_str}{RESET}"
     else:
-        balance_str = f"{YELLOW}{rounded_balance:.4f}{RESET}"
+        balance_str = f"{balance_str}"
 
     return balance_str
 
@@ -111,14 +114,13 @@ def print_help():
     print("  plume    - Тестовая сеть Plume")
     print("  kakarot  - Тестовая сеть Kakarot")
     print("  story    - Тестовая сеть Story")
-    print("  espresso - Тестовая сеть Espresso")
-    print("  zero     - Тестовая сеть Zero")
-    print("  morph    - Тестовая сеть Morph")
     print("  base     - Cеть Base")
     print("  op       - Cеть Optimism")
     print("  arb      - Cеть Arbitrum")
     print("  scroll   - Cеть Scroll")
-
+    print("  espresso - Тестовая сеть Espresso")
+    print("  zero     - Тестовая сеть Zero")
+    print("  morph    - Тестовая сеть Morph")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Проверка баланса ETH на различных сетях.")
