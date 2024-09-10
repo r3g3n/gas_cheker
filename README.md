@@ -1,11 +1,15 @@
 #gas_cheker
 Чекает газ в заданных сетях, показывает выделяет цветом елси недостаточно газа, софт создан для отработки тестнетов.
 
-Цвета
-
- > 0.05   GREEN
- = 0.0000 RED
- < 0.0001 YELLOW 
+    # Форматируем баланс
+    if rounded_balance > 0.05:
+        balance_str = f"{GREEN}{balance_str}{RESET}"
+    elif 0.0001 <= rounded_balance < 0.0009:
+        balance_str = f"{YELLOW}{balance_str}{RESET}"
+    elif rounded_balance == 0.0000:
+        balance_str = f"{RED}{balance_str}{RESET}"
+    else:
+        balance_str = f"{balance_str}"
 
 
 Использование:
