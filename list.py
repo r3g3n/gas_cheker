@@ -16,6 +16,10 @@ scroll_provider_url = "https://rpc.scroll.io" # Scroll
 espresso_provider_url = "https://kyoto-rpc.altlayer.io" # Espresso Testnet
 zero_provider_url = "https://rpc.zerion.io/v1/zero-sepolia" # Zero Testnet
 morph_provider_url = "https://rpc-quicknode-holesky.morphl2.io" # Morph Testnet
+#https://polygon-zkevm.drpc.org #zkevm
+#https://bera-testnet.nodeinfra.com #bera
+#https://rpc.linea.build #linea
+#https://zora.drpc.org #zora
 
 # Подключение к сетям через Web3
 web3_providers = {
