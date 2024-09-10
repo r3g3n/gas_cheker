@@ -114,13 +114,18 @@ def print_help():
     print("  plume    - Тестовая сеть Plume")
     print("  kakarot  - Тестовая сеть Kakarot")
     print("  story    - Тестовая сеть Story")
+    print("  espresso - Тестовая сеть Espresso")
+    print("  zero     - Тестовая сеть Zero")
+    print("  morph    - Тестовая сеть Morph")
     print("  base     - Cеть Base")
     print("  op       - Cеть Optimism")
     print("  arb      - Cеть Arbitrum")
     print("  scroll   - Cеть Scroll")
-    print("  espresso - Тестовая сеть Espresso")
-    print("  zero     - Тестовая сеть Zero")
-    print("  morph    - Тестовая сеть Morph")
+
+    print("\nПример: python3.10 list.py -n all")
+    print("Пример: python3.10 list.py -n eth,sepolia,holesky,kakarot -l 110,120")
+    
+    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Проверка баланса ETH на различных сетях.")
