@@ -16,10 +16,11 @@ scroll_provider_url = "https://rpc.scroll.io" # Scroll
 espresso_provider_url = "https://kyoto-rpc.altlayer.io" # Espresso Testnet
 zero_provider_url = "https://rpc.zerion.io/v1/zero-sepolia" # Zero Testnet
 morph_provider_url = "https://rpc-quicknode-holesky.morphl2.io" # Morph Testnet
-#https://polygon-zkevm.drpc.org #zkevm
-#https://bera-testnet.nodeinfra.com #bera
-#https://rpc.linea.build #linea
-#https://zora.drpc.org #zora
+super_provider_url = "https://testnet-rpc.superposition.so" # Superposition
+zkevm_provider_url = "https://polygon-zkevm.drpc.org" # zkEVM
+bera_provider_url = "https://bera-testnet.nodeinfra.com" # Bera
+linea_provider_url = "https://rpc.linea.build" # Linea
+zora_provider_url = "https://zora.drpc.org" # Zora
 
 # Подключение к сетям через Web3
 web3_providers = {
@@ -35,7 +36,12 @@ web3_providers = {
     'scroll': Web3(Web3.HTTPProvider(scroll_provider_url)),
     'espresso': Web3(Web3.HTTPProvider(espresso_provider_url)),
     'zero': Web3(Web3.HTTPProvider(zero_provider_url)),
-    'morph': Web3(Web3.HTTPProvider(morph_provider_url))
+    'morph': Web3(Web3.HTTPProvider(morph_provider_url)),
+    'super': Web3(Web3.HTTPProvider(super_provider_url)),
+    'zkevm': Web3(Web3.HTTPProvider(zkevm_provider_url)),
+    'bera': Web3(Web3.HTTPProvider(bera_provider_url)),
+    'linea': Web3(Web3.HTTPProvider(linea_provider_url)),
+    'zora': Web3(Web3.HTTPProvider(zora_provider_url))
 }
 
 # ANSI-коды для изменения цвета текста
@@ -47,10 +53,7 @@ RESET = "\033[0m"
 def get_eth_balance(web3, wallet_address: str) -> float:
     """Получает баланс ETH для указанного адреса."""
     if web3.isConnected():
-        # Преобразуем адрес в checksum формат
         checksum_address = web3.toChecksumAddress(wallet_address)
-
-        # Получаем баланс
         balance_wei = web3.eth.get_balance(checksum_address)
         balance_eth = web3.fromWei(balance_wei, 'ether')
         return balance_eth
@@ -58,14 +61,13 @@ def get_eth_balance(web3, wallet_address: str) -> float:
         raise ConnectionError("Не удалось подключиться к сети.")
 
 def format_balance(balance: float) -> str:
-    """Форматирует баланс с округлением до 4 знаков после запятой и выделением цветом в зависимости от величины баланса."""
+    """Форматирует баланс с округлением до 4 знаков и выделением цветом в зависимости от величины баланса."""
     rounded_balance = round(balance, 4)
     balance_str = f"{rounded_balance:.4f}"
 
-    # Форматируем баланс
     if rounded_balance > 0.05:
         balance_str = f"{GREEN}{balance_str}{RESET}"
-    elif 0.0001 <= rounded_balance < 0.0009:
+    elif 0.0001 <= rounded_balance < 0.001:
         balance_str = f"{YELLOW}{balance_str}{RESET}"
     elif rounded_balance == 0.0000:
         balance_str = f"{RED}{balance_str}{RESET}"
@@ -79,10 +81,9 @@ def process_accounts(file_path, networks, line_range):
     try:
         with open(file_path, 'r') as file:
             lines = file.readlines()
-            # Определение диапазона строк для обработки
             if line_range:
                 start, end = map(int, line_range.split('-'))
-                lines_to_process = lines[start-1:end]  # start-1 для индексации с нуля
+                lines_to_process = lines[start-1:end]
             else:
                 lines_to_process = lines
             
@@ -99,7 +100,6 @@ def process_accounts(file_path, networks, line_range):
                         except Exception as e:
                             balances.append(f"{network.capitalize()}: Ошибка - {e}")
 
-                # Вывод результата в одну строку
                 print(f"{name} [{address}] | {' | '.join(balances)}")
     except FileNotFoundError:
         print(f"Файл {file_path} не найден.")
@@ -121,15 +121,18 @@ def print_help():
     print("  espresso - Тестовая сеть Espresso")
     print("  zero     - Тестовая сеть Zero")
     print("  morph    - Тестовая сеть Morph")
+    print("  super    - Тестовая сеть Superposition")
+    print("  bera     - Тестовая сеть Bera")
+    print("  linea    - Cеть Linea")
+    print("  zora     - Cеть Zora")
     print("  base     - Cеть Base")
     print("  op       - Cеть Optimism")
     print("  arb      - Cеть Arbitrum")
     print("  scroll   - Cеть Scroll")
-
+    print("  zkevm    - Cеть zkEVM")
+    
     print("\nПример: python3.10 list.py -n all")
     print("Пример: python3.10 list.py -n eth,sepolia,holesky,kakarot -l 110,120")
-    
-    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Проверка баланса ETH на различных сетях.")
